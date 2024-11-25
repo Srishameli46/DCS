@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import { Button } from "../components/Button";
 import { AuthContext } from "../context/Authcontext";
 import { Type } from "../enum/enum";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-// import GoogleIcon from "../assets/images/GoogleIcon.png";
 import * as Yup from "yup";
 import { getLoginAccess } from "../service/ProfileService";
-import { ACCESS_TOKEN, HOME } from "../constants";
+import { HOME } from "../constants";
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -18,68 +17,43 @@ const validationSchema = Yup.object({
     .required("Email is required"),
 
   password: Yup.string()
-    // .min(8, "Password must be at least 8 characters long")
-    // .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
     .matches(/[a-z]/, "Password must contain at least one lowercase letter")
-    // .matches(/\d/, "Password must contain at least one number")
-    // .matches(
-    //   /[!@#$%^&*(),.?":{}|<>]/,
-    //   "Password must contain at least one special character"
-    // )
     .required("Please enter the password"),
 });
 
 export function Login() {
   const authentication = useContext(AuthContext);
   const { loginState, loginDispatch } = authentication;
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const navigate = useNavigate();
- 
 
   const handleAuth = async (values: { username: string; password: string }) => {
     try {
-    const username = values.username;
-    const password = values.password;
-    const value = await getLoginAccess(username, password);
-    const token = value.data.token;
-    localStorage.setItem("token", token);
-    loginDispatch({
-      type: Type.LOGIN,
-      payload:{token},
-    });
-    console.log(value);
-
-    
-    if(value){
-      navigate(`/${HOME}`)
+      const username = values.username;
+      const password = values.password;
+      const value = await getLoginAccess(username, password);
+      const token = value.data.token;
+      localStorage.setItem("token", token);
+      loginDispatch({
+        type: Type.LOGIN,
+        payload: { token },
+      });
+      if (value) {
+        navigate(`/${HOME}`);
+      }
+    } catch (err: any) {
+      console.log(err.message);
+      setShowModal(true);
+      setError(err.message);
     }
-  } catch(err) {
-    console.log(err);
-    
-  }
-  
-  
-  
-    
-
-    // if (isSuccess) {
-    //   const token = {
-    //     accessToken: data.data.entity.accessToken ,
-    //     refreshToken: data.data.entity.refreshToken,
-    //   };
-    //   loginDispatch({ type: Type.LOGIN, payload: { token } });
-    //   navigate(`/${HOME}`);
-    // }
-    // if(isError) {
-    //   alert(`Error:${error.message}`);
-    // }
   };
 
   return (
     <>
       <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-       
         <div className="relative z-10 flex flex-col items-center w-2/6">
-         
           <div className="bg-white px-8 py-5 rounded-md shadow-lg w-5/6 max-h-[380px] mt-2">
             <Formik
               initialValues={{ username: "", password: "" }}
@@ -152,6 +126,7 @@ export function Login() {
                   </div>
                   <Button type="button" className="w-full">
                     <div className="border p-2 border-gray-300 rounded-md flex gap-16">
+                      <i className="fa-brands fa-google"></i>
                       <div className="text-center text-sm font-semibold text-gray-700 mt-1">
                         Sign in with Google
                       </div>
@@ -163,6 +138,20 @@ export function Login() {
           </div>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 className="text-lg font-semibold mb-4 text-red-500">Error</h3>
+            <p className="text-gray-700">{error}</p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

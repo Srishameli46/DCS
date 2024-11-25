@@ -8,7 +8,7 @@ export default function TimetableCard() {
   return (
     <>
       <div
-        className="bg-sky-600 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+        className="bg-sky-600 p-5 rounded-lg shadow-md hover:transform hover:scale-105 transition-shadow duration-300"
         onMouseEnter={() => setHidden(false)}
         onMouseLeave={() => setHidden(true)}
       >
@@ -22,11 +22,11 @@ export default function TimetableCard() {
         <div className="mt-5 space-y-2">
           <div className="flex justify-between text-white">
             <span>Morning</span>
-            <span>9:00 am - 12:00 pm</span>
+            <span>09:00 am - 12:00 pm</span>
           </div>
           <div className="flex justify-between text-white">
             <span>Afternoon</span>
-            <span>3:00 pm - 6:00 pm</span>
+            <span>03:00 pm - 06:00 pm</span>
           </div>
         </div>
       </div>

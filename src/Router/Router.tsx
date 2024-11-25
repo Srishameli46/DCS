@@ -1,14 +1,15 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import { HOME, LOGIN, PROFILES } from "../constants";
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import Home from "../pages/Home";
 import DoctorProfile from "../pages/DoctorProfile";
 import { AppProvider } from "../context/AppContext";
-import AppointmentForm from "./Appointment/AppointmentForm";
+import AppointmentForm from "../components/Appointment/AppointmentForm";
 import { Login } from "../pages/Login";
 import { Authprovider } from "../context/Authcontext";
-import AppointmentList from "./Appointment/Appointment.list";
-import PatientForm from "./Patient/PatientRegister";
+import AppointmentList from "../components/Appointment/Appointment.list";
+import PatientForm from "../components/Patient/PatientRegister";
+import PrivateRoute from "./PrivateRouter";
 export function Router() {
   return (
     <>
@@ -22,7 +23,7 @@ export function Router() {
                <Route path={HOME} element={<Home />} />
                <Route path = "register" element={<PatientForm/>}/>
               <Route path={PROFILES} element={<DoctorProfile />} />
-              <Route path="/profiles/appointment" element={<AppointmentForm />} />
+              <Route path="/profiles/appointment" element={<PrivateRoute Component={AppointmentForm}/>} />
               <Route path="/appointments" element={<AppointmentList/>}></Route>
             </Route>
           </Routes>

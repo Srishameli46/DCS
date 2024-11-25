@@ -7,7 +7,7 @@ function DoctorTT() {
 
   return (
     <div
-      className="bg-sky-500 p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+      className="bg-sky-500 p-5 rounded-lg shadow-md hover:transform hover:scale-105 transition-shadow duration-300"
       onMouseEnter={() => setHidden(false)}
       onMouseLeave={() => setHidden(true)}
     >

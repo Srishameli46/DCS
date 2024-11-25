@@ -34,7 +34,7 @@ const DoctorProfile = () => {
   }
 
   return (
-    <div className="m-10 flex flex-wrap justify-around">
+    <div className="m-20 flex flex-wrap justify-around gap-y-7 mb-5">
       {profiles.map((profile) => (
         <ProfileCard key={profile.id} profile={profile} /> 
       ))}

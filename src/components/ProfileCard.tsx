@@ -3,13 +3,13 @@ import profilepic from "../assets/images/NoProfile.png";
 
 function ProfileCard({ profile }: any) {
   return (
-    <div className="w-80 h-auto rounded-lg shadow-lg border border-gray-200 p-5 bg-white">
+    <div className="w-96 h-auto rounded-lg shadow-lg border border-gray-200 p-5 bg-white">
       <div className="flex gap-5">
         <div className="flex-shrink-0">
           <img
             src={profilepic}
             alt="Profile Picture"
-            className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
+            className="w-20 h-20 rounded-full object-cover border-2 border-gray-300"
           />
         </div>
         <div className="flex-1">
@@ -32,6 +32,7 @@ function ProfileCard({ profile }: any) {
           <p className="text-lg font-bold text-gray-800">Consultation Fee: ₹{profile.consultationFee}</p>
         </div>
       </div>
+      <p className="text-sm pt-4 px-2 font-semibold text-slate-700">ID: {profile.doctorId}</p>
       <div className="mt-4 text-center">
         <NavLink to="/profiles/appointment">
           <button className="w-full py-2 px-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-300">

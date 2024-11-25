@@ -1,12 +1,9 @@
-import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import axios from "axios";
 import * as Yup from "yup";
 import { useAppContext } from "../../context/AppContext";
 import { Type } from "../../enum/enum";
 import { createPatient } from "../../service/ProfileService";
 
-// Define the validation schema using Yup
 const validationSchema = Yup.object({
   name: Yup.string()
     .matches(/^[a-zA-Z\s]+$/, "Patient name should contain only letters and space")
@@ -33,7 +30,7 @@ const PatientForm = () => {
   const {dispatch} = useAppContext();
   const handleSubmit = async (values: any) => {
     try {
-      const patientData = await createPatient(values); // Call the API function to create the patient
+      const patientData = await createPatient(values);
       dispatch({ type: Type.SET_PATIENT, payload: patientData });
       alert("Patient created successfully!");
     } catch (err) {
@@ -42,7 +39,7 @@ const PatientForm = () => {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-white rounded-md shadow-md">
+    <div className="p-6 max-w-md mx-auto bg-white rounded-md shadow-md my-16">
       <h1 className="text-xl font-semibold mb-4">Create New Patient</h1>
       <Formik
         initialValues={{
